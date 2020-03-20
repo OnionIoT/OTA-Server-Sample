@@ -1,0 +1,16 @@
+{
+  "name": "ota-server",
+  "version": "1.0.0",
+  "description": "Onion OTA Firmware Sample Server ",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm index.js"
+  },
+  "author": "Zheng Han <zh@onion.io>",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "jsonpath": "^1.0.2"
+  }
+}
