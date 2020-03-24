@@ -4,7 +4,7 @@
   "description": "Onion OTA Firmware Sample Server ",
   "main": "index.js",
   "scripts": {
-    "test": "npm index.js"
+    "test": "node index.js"
   },
   "author": "Zheng Han <zh@onion.io>",
   "license": "ISC",

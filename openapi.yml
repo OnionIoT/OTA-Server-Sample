@@ -1,0 +1,134 @@
+openapi: 3.0.0
+info:
+  title: OTA Server Sample
+  version: 1.0.0
+  description: Example of firmware server for Omega2 and OpenWRT devices
+tags:
+  - name: firmware info
+    description: Information about firmware releases
+  - name: update acknowledge
+    description: Devices acknowledging firmware updates
+paths:
+  /{device}:
+    get:
+      tags:
+        - firmware info
+      summary: List all available firmware for a specified device
+      description: 'List all available firmware for a specified device'
+      operationId: getAllFirmwareInfo
+      parameters:
+        - $ref: "#/components/parameters/device"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/firmwareInfo'
+  /{device}/{firmwareType}:
+    get:
+      tags:
+        - firmware info
+      summary: Get information on a firmware release
+      description: 'Get information on the latest or stable firmware release for the specified device'
+      operationId: getFirmwareInfo
+      parameters:
+        - $ref: "#/components/parameters/device"
+        - $ref: "#/components/parameters/firmwareType"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/firmwareInfo'
+                # type: array
+                # items:
+                  
+  '/':
+    post:
+      tags:
+        - update acknowledge
+      summary: Report firmware update status
+      description: 'Report firmware update status'
+      operationId: updateAcknowledge
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/updateAcknowledge'
+        description: Desired gateway device name
+        required: true
+      responses:
+        '200':
+          description: successful operation
+components:
+  parameters:
+    device:
+      name: device
+      in: path
+      description: Name of the device
+      required: true
+      schema:
+        type: string
+        example: omega2
+    firmwareType:
+      name: firmwareType
+      in: path
+      description: Type of firmware, stable or latest
+      required: true
+      schema:
+        type: string
+        enum: [stable, latest]
+        example: stable
+  schemas:
+    firmwareInfo:
+      type: object
+      properties:
+        device:
+          type: string
+          example: 'omega2'
+        version:
+          type: string
+          example: '0.3.2'
+        build:
+          type: integer
+          example: 236
+        url:
+          type: string
+          example: 'http://repo.onioniot.com/omega2/images/omega2-v0.3.2-b236.bin'
+        stable:
+          type: boolean
+          example: true
+      required:
+        - device
+        - version
+        - build
+        - url
+        - stable
+    updateAcknowledge:
+      type: object
+      properties:
+        mac_addr:
+          type: string
+          example: '40A36BC0F195'
+        device:
+          type: string
+          example: 'omega2p'
+        firmware_version:
+          type: string
+          example: '0.3.2'
+        firmware_build:
+          type: integer
+          example: 235
+        upgrade_status:
+          type: string
+          example: 'complete'
+      required:
+        - mac_addr
+        - device
+        - firmware_version
+        - firmware_build
+        - upgrade_statuspmar
